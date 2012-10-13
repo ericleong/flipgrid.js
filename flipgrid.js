@@ -52,6 +52,13 @@ var flipgrid = function(div, load, tileWidth, numCols) {
 		});
 
 	this.bind();
+
+	// Important variables!
+	this.PICASA_USER_ID = '103746199749981693463';
+	this.FLICKR_USER_ID = '58906587@N08';
+	this.FLICKR_API_KEY = '';
+	this.FLICKR_METHOD  = 'flickr.people.getPublicPhotos';
+	this.TUMBLR_BLOG_NAME = 'dreamynomad';
 };
 
 flipgrid.prototype = {
@@ -234,7 +241,7 @@ flipgrid.prototype = {
 		var maxResults = this.numpages * this.numCols;
 		var fg = this;
 
-		$.getJSON('http://picasaweb.google.com/data/feed/api/user/103746199749981693463?kind=photo&thumbsize=' + 
+		$.getJSON('http://picasaweb.google.com/data/feed/api/user/' + this.PICASA_USER_ID + '?kind=photo&thumbsize=' + 
 			this.pickPicasaPhoto(this.tileWidth) + 'c&imgmax=' + this.pickPicasaPhoto(this.getMinDim(), false) + 
 			'&max-results=' + maxResults + '&start-index=' + fg.picasa_index + '&callback=?', 
 				
@@ -319,7 +326,7 @@ flipgrid.prototype = {
 
 		var fg = this;
 		
-		$.getJSON('http://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&user_id=58906587@N08&api_key=8e62fc37aafe76f1255bf8546b3f549e&format=json&per_page=' + 
+		$.getJSON('http://api.flickr.com/services/rest/?method=' + this.FLICKR_METHOD + '&user_id=' + this.FLICKR_USER_ID + '&api_key=' + this.FLICKR_API_KEY + '&format=json&per_page=' + 
 				this.numCols + '&page=' + curpage + '&jsoncallback=?', 
 			function(data){
 			
@@ -395,7 +402,7 @@ flipgrid.prototype = {
 
 		var fg = this;
 		
-		$.getJSON('http://dreamynomad.tumblr.com/api/read/json?type=photo&num=' + numposts + '&start=' + this.tumblr_index + '&callback=?', 
+		$.getJSON('http://' + this.TUMBLR_BLOG_NAME + '.tumblr.com/api/read/json?type=photo&num=' + numposts + '&start=' + this.tumblr_index + '&callback=?', 
 			function(data) {
 			
 				fg.tumblr_index += data.posts.length;
