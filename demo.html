@@ -1,0 +1,76 @@
+<!--
+demo.html
+flipgrid.js demo page.
+
+Eric Leong
+October 12, 2012
+
+Copyright (c) 2012, Eric Leong
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="flipgrid.css" />
+
+<style type="text/css" media="screen">
+html, body {
+	width: 100%;
+	margin: 0px;
+	background-color: #333;
+}
+
+a:link, a:visited {
+	text-decoration: none;
+	font-family: sans-serif;
+	color: white;
+}
+
+a:hover {
+	color: #ddd;
+}
+</style>
+
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="flipgrid.js"></script>
+<script type="text/javascript">
+	$(function() {
+		var fg = new flipgrid("#tiles", flipgrid.prototype.loadTumblr, 200, Math.floor($(document).width() / 200));
+		fg.load();
+
+		$("#sources").on("click", "a", {fg: fg}, function(e) {
+			$("#tiles").empty();
+
+			if ($(this).text() == "tumblr") {
+				fg.load = flipgrid.prototype.loadTumblr;
+			} else if ($(this).text() == "flickr") {
+				fg.load = flipgrid.prototype.loadFlickr;
+			} else if ($(this).text() == "picasa") {
+				fg.load = flipgrid.prototype.loadPicasa;
+			}
+			fg.load();
+
+			e.preventDefault();
+		});
+	});
+</script>
+
+</head>
+
+<body>
+	<span id="sources">
+		<a href="http://ericleong.me">eric leong's</a>: <a href="#tumblr">tumblr</a>,<a href="#flickr">flickr</a>,<a href="#picasa">picasa</a>
+	</span>
+    <div id="tiles">
+	</div>
+</body>
+</html>
