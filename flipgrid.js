@@ -319,7 +319,7 @@ flipgrid.prototype = {
 
 		var fg = this;
 		
-		$.getJSON('http://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&user_id=58906587@N08&api_key=8e62fc37aafe76f1255bf8546b3f549e&format=json&per_page=' + 
+		$.getJSON('http://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&user_id=58906587@N08&api_key=19602668a7978b7779de61db28e08a8b&format=json&per_page=' + 
 				this.numCols + '&page=' + curpage + '&jsoncallback=?', 
 			function(data){
 			
