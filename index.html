@@ -22,6 +22,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 <link rel="stylesheet" type="text/css" href="flipgrid.css" />
 
 <style type="text/css" media="screen">
+html {
+	overflow-y: scroll;
+}
+
 html, body {
 	width: 100%;
 	margin: 0px;
@@ -48,7 +52,17 @@ a:hover {
 <script type="text/javascript" src="flipgrid.js"></script>
 <script type="text/javascript">
 	$(function() {
-		var fg = new flipgrid("#tiles", flipgrid.prototype.loadTumblr, 200, Math.floor($(document).width() / 200));
+		var calcCols = function(width) {
+			// minimize column width, but at least 3 columns
+			
+			if (width / 200 < 3) {
+				return 3;
+			} else {
+				return Math.floor(width / 200);
+			}
+		};
+
+		var fg = new flipgrid("#tiles", flipgrid.prototype.loadTumblr, calcCols($(document).width()));
 		fg.load();
 
 		$("#sources").on("click", "a", {fg: fg}, function(e) {
@@ -64,6 +78,11 @@ a:hover {
 			fg.load();
 
 			e.preventDefault();
+		});
+
+		$(window).resize(function() {
+			fg.numCols = calcCols($("#tiles").width());
+			fg.resize();
 		});
 	});
 </script>

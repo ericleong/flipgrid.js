@@ -21,17 +21,20 @@ $.fn.filterNode = function(name) {
 	});
 };
 
-var flipgrid = function(div, load, tileWidth, numCols) {
+var flipgrid = function(div, load, numCols, tileWidth) {
 	this.div = $(div);
-	this.tileWidth = tileWidth === undefined ? 200 : tileWidth;
-
-	if (numCols === undefined) {
-		this.numCols = this.div.width() > 0 ? Math.floor(this.div.width() / this.tileWidth) : 6;
-	} else {
+	
+	if (numCols) {
 		this.numCols = numCols;
+	} else {
+		if (tileWidth) {
+			this.tileWidth = tileWidth;
+		} else {
+			this.numCols = this.div.width() > 0 ? Math.floor(this.div.width() / 200) : 6;
+		}
 	}
 	
-	this.minrows = Math.max(6, numCols);
+	this.minrows = Math.max(6, this.cols());
 
 	this.load = load;
 
@@ -39,16 +42,11 @@ var flipgrid = function(div, load, tileWidth, numCols) {
 	this.card = $('<div>').addClass('tile-card').append(
 					$('<div>').addClass('front tile'),
 					$('<div>').addClass('back tile')
-					).css({
-						'width': this.tileWidth + 'px',
-						'height': this.tileWidth + 'px',
-					});
+					);
 
 	// Tile container.
 	this.tileContainer = $('<div>').addClass('tile-container').append(this.card).css({
-			'display': 'none',
-			'width': this.tileWidth + 'px',
-			'height': this.tileWidth + 'px'
+			'display': 'none'
 		});
 
 	this.bind();
@@ -63,8 +61,31 @@ var flipgrid = function(div, load, tileWidth, numCols) {
 
 flipgrid.prototype = {
 
+	cols: function() {
+		if (this.numCols) {
+			return this.numCols;
+		}
+
+		return Math.floor(this.div.size() / this.size());
+	},
+
+	size: function() {
+		if (this.tileWidth) {
+			return this.tileWidth;
+		}
+
+		return Math.floor(this.div.width() / this.cols());
+	},
+
 	width: function() {
-		return Math.floor(this.div.width() / this.tileWidth);
+		return Math.floor(this.div.width() / this.size());
+	},
+
+	resize: function() {
+		$('.tile-container', this.div).css({
+			'width': this.size() + 'px',
+			'height': this.size() + 'px'
+		});
 	},
 
 	bind: function() {
@@ -114,7 +135,7 @@ flipgrid.prototype = {
 							offset.y = 0;
 						}
 						
-						// offset.y -= offset.y % this.tileWidth - this.tileWidth / 4;
+						// offset.y -= offset.y % this.size() - this.size() / 4;
 						
 						fg.createTileBack(tile, offset);
 					}
@@ -143,7 +164,7 @@ flipgrid.prototype = {
 				if( $(window).height() + $(window).scrollTop() >= fg.div.offset().top + fg.div.height() ) {
 					
 					if (fg.done) {
-						fg.load(1 + Math.floor(($(window).height() + $(window).scrollTop() - (fg.div.offset().top + fg.div.height())) / fg.tileWidth));
+						fg.load(1 + Math.floor(($(window).height() + $(window).scrollTop() - (fg.div.offset().top + fg.div.height())) / fg.size()));
 					}
 				}
 			});
@@ -167,7 +188,7 @@ flipgrid.prototype = {
 			
 			if (offset != undefined) {
 				// if outside user's view, don't turn
-				if(tile.position() && tile.position().top - offset.y < -this.tileWidth + -4) 
+				if(tile.position() && tile.position().top - offset.y < -this.size() + -4) 
 					return;
 				if(tile.position() && tile.position().top - offset.y > offset.height) 
 					return;
@@ -198,6 +219,12 @@ flipgrid.prototype = {
 
 	addPhoto: function(smallURL, largeURL, position){
 		var tile = this.tileContainer.clone();
+		
+		tile.css({
+			'width': this.size() + 'px',
+			'height': this.size() + 'px'
+		});
+
 		tile.data('fullsize-url', largeURL);
 		
 		$('.front', tile).css({
@@ -220,9 +247,9 @@ flipgrid.prototype = {
 		// to determine the size of the photo to be downloaded.
 
 		if (this.div.width() > 0) {
-			return Math.min(this.div.width(), $(window).width(), $(window).height(), this.numCols * this.tileWidth);
+			return Math.min(this.div.width(), $(window).width(), $(window).height(), this.cols() * this.size());
 		}
-		return Math.min($(window).width(), $(window).height(), this.numCols * this.tileWidth);
+		return Math.min($(window).width(), $(window).height(), this.cols() * this.size());
 	},
 
 
@@ -232,17 +259,17 @@ flipgrid.prototype = {
 	loadPicasa: function(numpages){
 		
 		this.done = false;
-		this.numpages = (numpages === undefined) ? Math.max(this.minrows, this.numCols - 1) : numpages;
+		this.numpages = (numpages === undefined) ? Math.max(this.minrows, this.cols() - 1) : numpages;
 
 		if (this.picasa_index === undefined) {
 			this.picasa_index = 1;
 		}
 		
-		var maxResults = this.numpages * this.numCols;
+		var maxResults = this.numpages * this.cols();
 		var fg = this;
 
 		$.getJSON('http://picasaweb.google.com/data/feed/api/user/' + this.PICASA_USER_ID + '?kind=photo&thumbsize=' + 
-			this.pickPicasaPhoto(this.tileWidth) + 'c&imgmax=' + this.pickPicasaPhoto(this.getMinDim(), false) + 
+			this.pickPicasaPhoto(this.size()) + 'c&imgmax=' + this.pickPicasaPhoto(this.getMinDim(), false) + 
 			'&max-results=' + maxResults + '&start-index=' + fg.picasa_index + '&callback=?', 
 				
 				function(xmldata){
@@ -313,7 +340,7 @@ flipgrid.prototype = {
 
 	loadFlickr: function(numpages, curpage){		
 		this.done = false;
-		numpages = (numpages === undefined) ? Math.max(this.numCols - 1, this.minrows) : numpages;
+		numpages = (numpages === undefined) ? Math.max(this.cols() - 1, this.minrows) : numpages;
 
 		if (this.flickr_page === undefined) {
 			this.flickr_page = 1;
@@ -327,7 +354,7 @@ flipgrid.prototype = {
 		var fg = this;
 		
 		$.getJSON('http://api.flickr.com/services/rest/?method=' + this.FLICKR_METHOD + '&user_id=' + this.FLICKR_USER_ID + '&api_key=' + this.FLICKR_API_KEY + '&format=json&per_page=' + 
-				this.numCols + '&page=' + curpage + '&jsoncallback=?', 
+				this.cols() + '&page=' + curpage + '&jsoncallback=?', 
 			function(data){
 			
 				fg.flickr_pages = data.photos.pages;
@@ -335,7 +362,7 @@ flipgrid.prototype = {
 				
 				for (var p in data.photos.photo) {
 					var photo = data.photos.photo[p];
-					fg.addPhoto(fg.flickrPhotoUrl(photo, fg.pickFlickrPhoto(fg.tileWidth)), 
+					fg.addPhoto(fg.flickrPhotoUrl(photo, fg.pickFlickrPhoto(fg.size())), 
 						fg.flickrPhotoUrl(photo, fg.pickFlickrPhoto(fg.getMinDim(), false)), 'center center');
 				}
 				
@@ -388,7 +415,7 @@ flipgrid.prototype = {
 	loadTumblr: function(numpages){
 		// http://www.tumblr.com/docs/en/api/v2#photo-posts
 		this.done = false;
-		numpages = (numpages > 0) ? numpages : Math.max(this.numCols - 1, this.minrows);
+		numpages = (numpages > 0) ? numpages : Math.max(this.cols() - 1, this.minrows);
 
 		if (this.tumblr_index === undefined)
 			this.tumblr_index = 0;
@@ -398,7 +425,7 @@ flipgrid.prototype = {
 		if (numpages <= 0 || this.tumblr_index > this.tumblr_posts)
 			return;
 		
-		var numposts = numpages * this.numCols;
+		var numposts = numpages * this.cols();
 
 		var fg = this;
 		
@@ -415,10 +442,10 @@ flipgrid.prototype = {
 					var height = parseInt(photo.height, 10);
 
 					if (height >= width) {
-						fg.addPhoto(photo[fg.pickTumblrPhoto(fg.tileWidth * (height / width))], 
+						fg.addPhoto(photo[fg.pickTumblrPhoto(fg.size() * (height / width))], 
 							photo[fg.pickTumblrPhoto(fg.getMinDim() * (width / height), false)], 'center center');
 					} else {
-						fg.addPhoto(photo[fg.pickTumblrPhoto(fg.tileWidth * (width / height))], 
+						fg.addPhoto(photo[fg.pickTumblrPhoto(fg.size() * (width / height))], 
 							photo[fg.pickTumblrPhoto(fg.getMinDim() * (height / width), false)], 'center center');
 					}
 				}
