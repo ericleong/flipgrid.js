@@ -353,7 +353,7 @@ flipgrid.prototype = {
 
 		var fg = this;
 		
-		$.getJSON('http://api.flickr.com/services/rest/?method=' + this.FLICKR_METHOD + '&user_id=' + this.FLICKR_USER_ID + '&api_key=' + this.FLICKR_API_KEY + '&format=json&per_page=' + 
+		$.getJSON('https://api.flickr.com/services/rest/?method=' + this.FLICKR_METHOD + '&user_id=' + this.FLICKR_USER_ID + '&api_key=' + this.FLICKR_API_KEY + '&format=json&per_page=' + 
 				this.cols() + '&page=' + curpage + '&jsoncallback=?', 
 			function(data){
 			
