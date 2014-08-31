@@ -91,24 +91,42 @@ a:hover {
 			}
 		};
 
-		var fg = new flipgrid("#tiles", flipgrid.prototype.loadTumblr, calcCols($(document).width()));
+		var pickSource = function(text) {
+			if (text == "tumblr") {
+				return flipgrid.prototype.loadTumblr;
+			} else if (text == "flickr") {
+				return flipgrid.prototype.loadFlickr;
+			} else if (text == "picasa") {
+				return flipgrid.prototype.loadPicasa;
+			} else if (text == "instagram") {
+				return flipgrid.prototype.loadInstagram;
+			}
+		}
+
+		var inital = flipgrid.prototype.loadTumblr;
+
+		if (window.location.hash && window.location.hash.length > 1) {
+			var hash = pickSource(window.location.hash.substr(1));
+
+			if (hash) {
+				initial = hash;
+			}
+		}
+
+		var fg = new flipgrid("#tiles", initial, calcCols($(document).width()));
 		fg.load();
 
 		$("#sources").on("click", "a", {fg: fg}, function(e) {
 			$("#tiles").empty();
 
-			if ($(this).text() == "tumblr") {
-				fg.load = flipgrid.prototype.loadTumblr;
-			} else if ($(this).text() == "flickr") {
-				fg.load = flipgrid.prototype.loadFlickr;
-			} else if ($(this).text() == "picasa") {
-				fg.load = flipgrid.prototype.loadPicasa;
-			} else if ($(this).text() == "instagram") {
-				fg.load = flipgrid.prototype.loadInstagram;
-			}
-			fg.load();
+			var source = pickSource($(this).text());
 
-			e.preventDefault();
+			if (source) {
+				fg.load = source;
+				fg.load();
+
+				e.preventDefault();
+			}
 		});
 
 		$(window).resize(function() {
