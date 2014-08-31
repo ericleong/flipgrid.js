@@ -84,8 +84,10 @@ flipgrid.prototype = {
 	},
 
 	resize: function() {
+		var ratio = 100 / this.cols();
+
 		$('.tile-container', this.div).css({
-			'width': this.size() + 'px',
+			'width': ratio + '%',
 		});
 	},
 
@@ -221,8 +223,10 @@ flipgrid.prototype = {
 	addPhoto: function(smallURL, largeURL){
 		var tile = this.tileContainer.clone();
 
+		var ratio = 100 / this.cols();
+
 		tile.css({
-			'width': this.size() + 'px',
+			'width': ratio + '%',
 		});
 
 		tile.data('fullsize-url', largeURL);
