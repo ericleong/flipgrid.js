@@ -34,7 +34,7 @@ var flipgrid = function(div, load, numCols, tileWidth) {
 		}
 	}
 	
-	this.minrows = Math.max(6, this.cols());
+	this.minrows = Math.max(4, this.cols());
 
 	this.load = load;
 
@@ -86,7 +86,6 @@ flipgrid.prototype = {
 	resize: function() {
 		$('.tile-container', this.div).css({
 			'width': this.size() + 'px',
-			'height': this.size() + 'px'
 		});
 	},
 
@@ -219,19 +218,17 @@ flipgrid.prototype = {
 		}
 	},
 
-	addPhoto: function(smallURL, largeURL, position){
+	addPhoto: function(smallURL, largeURL){
 		var tile = this.tileContainer.clone();
-		
+
 		tile.css({
 			'width': this.size() + 'px',
-			'height': this.size() + 'px'
 		});
 
 		tile.data('fullsize-url', largeURL);
 		
 		$('.front', tile).css({
-			'background-image': 'url(' + smallURL + ')',
-			'background-position': position,
+			'background-image': 'url(' + smallURL + ')'
 		});
 		
 		this.div.append(tile);
@@ -308,7 +305,7 @@ flipgrid.prototype = {
 						fg.picasa_lastId = $(this).filterNode('gphoto:id').text();
 						fg.picasa_index++;
 						
-						fg.addPhoto($(this).filterNode('media:thumbnail').attr('url'), $(this).filterNode('media:content').attr('url'), 'center center');
+						fg.addPhoto($(this).filterNode('media:thumbnail').attr('url'), $(this).filterNode('media:content').attr('url'));
 					});
 					
 					fg.showTiles();
@@ -365,7 +362,7 @@ flipgrid.prototype = {
 				for (var p in data.photos.photo) {
 					var photo = data.photos.photo[p];
 					fg.addPhoto(fg.flickrPhotoUrl(photo, fg.pickFlickrPhoto(fg.size())), 
-						fg.flickrPhotoUrl(photo, fg.pickFlickrPhoto(fg.getMinDim(), false)), 'center center');
+						fg.flickrPhotoUrl(photo, fg.pickFlickrPhoto(fg.getMinDim(), false)));
 				}
 				
 				if (numpages <= 1 || curpage >= fg.flickr_pages) {
@@ -445,10 +442,10 @@ flipgrid.prototype = {
 
 					if (height >= width) {
 						fg.addPhoto(photo[fg.pickTumblrPhoto(fg.size() * (height / width))], 
-							photo[fg.pickTumblrPhoto(fg.getMinDim() * (width / height), false)], 'center center');
+							photo[fg.pickTumblrPhoto(fg.getMinDim() * (width / height), false)]);
 					} else {
 						fg.addPhoto(photo[fg.pickTumblrPhoto(fg.size() * (width / height))], 
-							photo[fg.pickTumblrPhoto(fg.getMinDim() * (height / width), false)], 'center center');
+							photo[fg.pickTumblrPhoto(fg.getMinDim() * (height / width), false)]);
 					}
 				}
 				
@@ -519,7 +516,7 @@ flipgrid.prototype = {
 						}
 
 						if (fg.instagram_max_id == -1 || id < fg.instagram_max_id) {
-							fg.addPhoto(images.low_resolution.url, images.standard_resolution.url, 'center center');
+							fg.addPhoto(images.low_resolution.url, images.standard_resolution.url);
 						}
 					}
 

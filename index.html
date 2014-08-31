@@ -26,54 +26,54 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 <link rel="stylesheet" type="text/css" href="flipgrid.css" />
 
 <style type="text/css" media="screen">
-html {
-	overflow-y: scroll;
-}
+	html {
+		overflow-y: scroll;
+	}
 
-html, body {
-	width: 100%;
-	margin: 0px;
-	color: #333;
-	background-color: #333;
-}
+	html, body {
+		width: 100%;
+		margin: 0px;
+		color: #333;
+		background-color: #333;
+	}
 
-header {
-	margin-top: 1em;
-	margin-right: 1em;
-}
+	header {
+		margin-top: 1em;
+		margin-right: 1em;
+	}
 
-a {
-	margin-left: 1em;
-}
+	a {
+		margin-left: 1em;
+	}
 
-a:link, a:visited {
-	text-decoration: none;
-	font-family: sans-serif;
-	color: white;
-}
+	a:link, a:visited {
+		text-decoration: none;
+		font-family: sans-serif;
+		color: white;
+	}
 
-a:hover {
-	color: #ddd;
-}
+	a:hover {
+		color: #ddd;
+	}
 
-#author {
-	display: inline-block;
-	font-weight: bold;
-	margin-bottom: 1em;
-}
+	#author {
+		display: inline-block;
+		font-weight: bold;
+		margin-bottom: 1em;
+	}
 
-#sources {
-	display: inline-block;
-	margin-bottom: 1em;
-}
+	#sources {
+		display: inline-block;
+		margin-bottom: 1em;
+	}
 
-#repo {
-	float: right;
-}
+	#repo {
+		float: right;
+	}
 
-#tiles {
-	clear: both;
-}
+	#tiles {
+		clear: both;
+	}
 </style>
 
 <script type="text/javascript"
@@ -101,9 +101,9 @@ a:hover {
 			} else if (text == "instagram") {
 				return flipgrid.prototype.loadInstagram;
 			}
-		}
+		};
 
-		var inital = flipgrid.prototype.loadTumblr;
+		var initial = flipgrid.prototype.loadTumblr;
 
 		if (window.location.hash && window.location.hash.length > 1) {
 			var hash = pickSource(window.location.hash.substr(1));
