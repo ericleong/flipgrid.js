@@ -12,6 +12,6 @@ Install python, and in your terminal, run
 
 and visit 
 
-	localhost:8000
+	localhost:8000/demo.html
 
 in your browser.
