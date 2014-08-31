@@ -446,10 +446,10 @@ flipgrid.prototype = {
 
 					if (height >= width) {
 						fg.addPhoto(photo[fg.pickTumblrPhoto(fg.size() * (height / width))], 
-							photo[fg.pickTumblrPhoto(fg.getMinDim() * (width / height), false)]);
+							photo[fg.pickTumblrPhoto(fg.getMinDim(), false)]);
 					} else {
 						fg.addPhoto(photo[fg.pickTumblrPhoto(fg.size() * (width / height))], 
-							photo[fg.pickTumblrPhoto(fg.getMinDim() * (height / width), false)]);
+							photo[fg.pickTumblrPhoto(fg.getMinDim(), false)]);
 					}
 				}
 				
@@ -520,7 +520,7 @@ flipgrid.prototype = {
 						}
 
 						if (fg.instagram_max_id == -1 || id < fg.instagram_max_id) {
-							fg.addPhoto(images.low_resolution.url, images.standard_resolution.url);
+							fg.addPhoto(fg.pickInstagramPhoto(images, fg.size()), fg.pickInstagramPhoto(images, fg.getMinDim(), false));
 						}
 					}
 
@@ -533,5 +533,28 @@ flipgrid.prototype = {
 				}
 			}
 		);
-	}
+	},
+
+	pickInstagramPhoto: function(images, width, large) {
+		// Picks a photo size based on the constraints.
+		large = large === undefined ? true : large;
+
+		if (large) {
+			if (images.thumbnail && images.thumbnail.width > width) {
+				return images.thumbnail.url;
+			} else if (images.low_resolution && images.low_resolution.width > width) {
+				return images.low_resolution.url;
+			} else {
+				return images.standard_resolution.url;
+			}
+		} else {
+			if (images.standard_resolution && images.standard_resolution.width < width) {
+				return images.standard_resolution.url;
+			} else if (images.low_resolution && images.low_resolution.width < width) {
+				return images.low_resolution.url;
+			} else {
+				return images.thumbnail.url;
+			}
+		}
+	},
 };
