@@ -19,6 +19,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 <html>
 <head>
 
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
+
+<title>flipgrid.js</title>
+
 <link rel="stylesheet" type="text/css" href="flipgrid.css" />
 
 <style type="text/css" media="screen">
@@ -29,7 +33,17 @@ html {
 html, body {
 	width: 100%;
 	margin: 0px;
+	color: #333;
 	background-color: #333;
+}
+
+header {
+	margin-top: 1em;
+	margin-right: 1em;
+}
+
+a {
+	margin-left: 1em;
 }
 
 a:link, a:visited {
@@ -42,8 +56,23 @@ a:hover {
 	color: #ddd;
 }
 
+#author {
+	display: inline-block;
+	font-weight: bold;
+	margin-bottom: 1em;
+}
+
+#sources {
+	display: inline-block;
+	margin-bottom: 1em;
+}
+
 #repo {
 	float: right;
+}
+
+#tiles {
+	clear: both;
 }
 </style>
 
@@ -92,12 +121,9 @@ a:hover {
 </head>
 
 <body>
-	<span id="sources">
-		<a href="http://ericleong.me">eric leong's</a>: <a href="#tumblr">tumblr</a>,<a href="#flickr">flickr</a>,<a href="#picasa">picasa</a>,<a href="#instagram">instagram</a>
-	</span>
-	<a id="repo" href="https://github.com/t3hprogrammer/flipgrid.js">
-		github
-	</a>
+	<header>
+		<a id="author" href="http://ericleong.me">photos by eric leong</a><a id="repo" href="https://github.com/t3hprogrammer/flipgrid.js">github</a><span id="sources"><a href="#tumblr">tumblr</a><a href="#flickr">flickr</a><a href="#picasa">picasa</a><a href="#instagram">instagram</a></span>
+	</header>
     <div id="tiles">
 	</div>
 </body>
