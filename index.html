@@ -74,6 +74,8 @@ a:hover {
 				fg.load = flipgrid.prototype.loadFlickr;
 			} else if ($(this).text() == "picasa") {
 				fg.load = flipgrid.prototype.loadPicasa;
+			} else if ($(this).text() == "instagram") {
+				fg.load = flipgrid.prototype.loadInstagram;
 			}
 			fg.load();
 
@@ -91,7 +93,7 @@ a:hover {
 
 <body>
 	<span id="sources">
-		<a href="http://ericleong.me">eric leong's</a>: <a href="#tumblr">tumblr</a>,<a href="#flickr">flickr</a>,<a href="#picasa">picasa</a>
+		<a href="http://ericleong.me">eric leong's</a>: <a href="#tumblr">tumblr</a>,<a href="#flickr">flickr</a>,<a href="#picasa">picasa</a>,<a href="#instagram">instagram</a>
 	</span>
 	<a id="repo" href="https://github.com/t3hprogrammer/flipgrid.js">
 		github

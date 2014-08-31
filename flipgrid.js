@@ -57,6 +57,8 @@ var flipgrid = function(div, load, numCols, tileWidth) {
 	this.FLICKR_API_KEY = '19602668a7978b7779de61db28e08a8b';
 	this.FLICKR_METHOD  = 'flickr.people.getPublicPhotos';
 	this.TUMBLR_BLOG_NAME = 'dreamynomad';
+	this.INSTAGRAM_USER_ID = '426049466';
+	this.INSTAGRAM_CLIENT_ID = '88087307878741f497b80cd5b5c8733d';
 };
 
 flipgrid.prototype = {
@@ -478,6 +480,57 @@ flipgrid.prototype = {
 
 			return 'photo-url-' + widths[widths.length - 1];
 		}
-	}
+	},
 
+	loadInstagram: function(numpages) {
+		// http://instagram.com/developer/endpoints/users/
+		this.done = false;
+		numpages = (numpages > 0) ? numpages : Math.max(this.cols() - 1, this.minrows);
+
+		if (numpages <= 0 || this.instagram_max_id == -2)
+			return;
+
+		var numposts = numpages * this.cols();
+
+		var url = 'https://api.instagram.com/v1/users/' + this.INSTAGRAM_USER_ID + '/media/recent/?client_id=' + this.INSTAGRAM_CLIENT_ID + '&count=' + numposts + '&callback=?';
+
+		if (this.instagram_max_id === undefined) {
+			this.instagram_max_id = -1;
+		} else {
+			url += '&max_id=' + this.instagram_max_id;
+		}
+
+		var fg = this;
+
+		$.getJSON(url, 
+			function(data) {
+
+				if (data && data.meta && data.meta.code == 200) {
+
+					var max_id = fg.instagram_max_id;
+					
+					for (var p in data.data) {
+						var images = data.data[p].images;
+
+						var id = parseInt(data.data[p].id, 10);
+
+						if (max_id == -1 || id < max_id) {
+							max_id = id;
+						}
+
+						if (fg.instagram_max_id == -1 || id < fg.instagram_max_id) {
+							fg.addPhoto(images.low_resolution.url, images.standard_resolution.url, 'center center');
+						}
+					}
+
+					if (fg.instagram_max_id == -1 || max_id < fg.instagram_max_id) {
+						fg.instagram_max_id = max_id;
+						fg.showTiles();
+					} else {
+						fg.instagram_max_id = -2;
+					}
+				}
+			}
+		);
+	}
 };
