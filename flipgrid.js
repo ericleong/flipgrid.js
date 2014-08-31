@@ -163,7 +163,7 @@ flipgrid.prototype = {
 			$(window).scroll(function(e) {
 		
 				// Check if we reached bottom of the document
-				if( $(window).height() + $(window).scrollTop() >= fg.div.offset().top + fg.div.height() ) {
+				if($(window).height() + $(window).scrollTop() >= fg.div.offset().top + fg.div.height() - fg.size() / 2) {
 					
 					if (fg.done) {
 						fg.load(1 + Math.floor(($(window).height() + $(window).scrollTop() - (fg.div.offset().top + fg.div.height())) / fg.size()));
