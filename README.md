@@ -15,3 +15,15 @@ and visit
 	localhost:8000/demo.html
 
 in your browser.
+
+Usage
+-----
+```Javascript
+var fg = new flipgrid(<selector>, <image loader>, <number of columns>);
+fg.load();
+```
+where `<image loader>` is one of 
+- `flipgrid.prototype.loadTumblr`
+- `flipgrid.prototype.loadFlickr`
+- `flipgrid.prototype.loadPicasa`
+- `flipgrid.prototype.loadInstagram`
