@@ -1,3 +1,4 @@
+/// <reference path="typings/jquery/jquery.d.ts"/>
 /* 
 flipgrid.js
 
@@ -52,11 +53,11 @@ var flipgrid = function(div, load, numCols, tileWidth) {
 	// Important variables!
 	this.PICASA_USER_ID = '103746199749981693463';
 	this.FLICKR_USER_ID = '58906587@N08';
-	this.FLICKR_API_KEY = '19602668a7978b7779de61db28e08a8b';
+	this.FLICKR_API_KEY = '';
 	this.FLICKR_METHOD  = 'flickr.people.getPublicPhotos';
 	this.TUMBLR_BLOG_NAME = 'dreamynomad';
 	this.INSTAGRAM_USER_ID = '426049466';
-	this.INSTAGRAM_CLIENT_ID = '88087307878741f497b80cd5b5c8733d';
+	this.INSTAGRAM_CLIENT_ID = '';
 };
 
 flipgrid.prototype = {
@@ -94,7 +95,7 @@ flipgrid.prototype = {
 	
 		if (this.div.data('events')) {
 			var events = this.div.data('events').click;
-			for (e in events) {
+			for (var e in events) {
 				if (events[e].selector == '.tile-container') {
 					bound = true;
 					break;
@@ -136,8 +137,6 @@ flipgrid.prototype = {
 							offset.y = 0;
 						}
 						
-						// offset.y -= offset.y % this.size() - this.size() / 4;
-						
 						fg.createTileBack(tile, offset);
 					}
 					
@@ -158,7 +157,6 @@ flipgrid.prototype = {
 				}
 			});
 			
-			var fg = this;
 			$(window).scroll(function(e) {
 		
 				// Check if we reached bottom of the document
