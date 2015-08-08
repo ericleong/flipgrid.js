@@ -4,20 +4,9 @@ flipgrid.js is a simple, content-focused photo gallery inspired by Microsoft's M
 
 Visit [ericleong.github.io/flipgrid.js](http://ericleong.github.io/flipgrid.js) for a demo.
 
-Demo
-----
-Install python, and in your terminal, run
-
-	python -m SimpleHTTPServer
-
-and visit 
-
-	localhost:8000/demo.html
-
-in your browser.
-
 Usage
 -----
+
 ```Javascript
 var fg = new flipgrid(<selector>, <image loader>, <number of columns>);
 fg.load();
