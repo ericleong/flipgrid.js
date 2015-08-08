@@ -1,3 +1,4 @@
+/// <reference path="typings/jquery/jquery.d.ts"/>
 /* 
 flipgrid.js
 
@@ -94,7 +95,7 @@ flipgrid.prototype = {
 	
 		if (this.div.data('events')) {
 			var events = this.div.data('events').click;
-			for (e in events) {
+			for (var e in events) {
 				if (events[e].selector == '.tile-container') {
 					bound = true;
 					break;
@@ -136,8 +137,6 @@ flipgrid.prototype = {
 							offset.y = 0;
 						}
 						
-						// offset.y -= offset.y % this.size() - this.size() / 4;
-						
 						fg.createTileBack(tile, offset);
 					}
 					
@@ -158,7 +157,6 @@ flipgrid.prototype = {
 				}
 			});
 			
-			var fg = this;
 			$(window).scroll(function(e) {
 		
 				// Check if we reached bottom of the document
