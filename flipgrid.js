@@ -53,11 +53,11 @@ var flipgrid = function(div, load, numCols, tileWidth) {
 	// Important variables!
 	this.PICASA_USER_ID = '103746199749981693463';
 	this.FLICKR_USER_ID = '58906587@N08';
-	this.FLICKR_API_KEY = '';
+	this.FLICKR_API_KEY = '19602668a7978b7779de61db28e08a8b';
 	this.FLICKR_METHOD  = 'flickr.people.getPublicPhotos';
 	this.TUMBLR_BLOG_NAME = 'dreamynomad';
 	this.INSTAGRAM_USER_ID = '426049466';
-	this.INSTAGRAM_CLIENT_ID = '';
+	this.INSTAGRAM_CLIENT_ID = '88087307878741f497b80cd5b5c8733d';
 };
 
 flipgrid.prototype = {
