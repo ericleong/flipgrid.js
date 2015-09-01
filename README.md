@@ -19,11 +19,6 @@ First, add a reference to `flipgrid.js` and `flipgrid.css` in your HTML file, li
 ```
 
 ```Javascript
-var fg = new flipgrid(<selector>, <image loader>, <number of columns>);
-fg.load();
+var flipgrid = new Flipgrid(<selector>, <number of columns>, <tile width>);
+flipgrid.addPhoto(<small url>, <large url>);
 ```
-where `<image loader>` is one of 
-- `flipgrid.prototype.loadTumblr`
-- `flipgrid.prototype.loadFlickr`
-- `flipgrid.prototype.loadPicasa`
-- `flipgrid.prototype.loadInstagram`
