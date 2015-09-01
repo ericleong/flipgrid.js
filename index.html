@@ -79,6 +79,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 <script type="text/javascript"
 	src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="demo.js"></script>
 <script type="text/javascript" src="flipgrid.js"></script>
 <script type="text/javascript">
 	$(function() {
@@ -94,17 +95,17 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 		var pickSource = function(text) {
 			if (text == "tumblr") {
-				return flipgrid.prototype.loadTumblr;
+				return Demo.prototype.loadTumblr;
 			} else if (text == "flickr") {
-				return flipgrid.prototype.loadFlickr;
+				return Demo.prototype.loadFlickr;
 			} else if (text == "picasa") {
-				return flipgrid.prototype.loadPicasa;
+				return Demo.prototype.loadPicasa;
 			} else if (text == "instagram") {
-				return flipgrid.prototype.loadInstagram;
+				return Demo.prototype.loadInstagram;
 			}
 		};
 
-		var initial = flipgrid.prototype.loadTumblr;
+		var initial = Demo.prototype.loadTumblr;
 
 		if (window.location.hash && window.location.hash.length > 1) {
 			var hash = pickSource(window.location.hash.substr(1));
@@ -114,17 +115,18 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 			}
 		}
 
-		var fg = new flipgrid("#tiles", initial, calcCols($(document).width()));
-		fg.load();
+		var fg = new Flipgrid("#tiles", calcCols($(document).width()));
+		var demo = new Demo(fg, initial);
+		demo.load();
 
-		$("#sources").on("click", "a", {fg: fg}, function(e) {
+		$("#sources").on("click", "a", {demo: demo}, function(e) {
 			$("#tiles").empty();
 
 			var source = pickSource($(this).text());
 
 			if (source) {
-				fg.load = source;
-				fg.load();
+				demo.load = source;
+				demo.load();
 
 				e.preventDefault();
 			}
@@ -133,6 +135,16 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 		$(window).resize(function() {
 			fg.numCols = calcCols($("#tiles").width());
 			fg.resize();
+		});
+		
+		$(window).scroll(function(e) {
+			// Check if we reached bottom of the document
+			if ($(window).height() + $(window).scrollTop() >= fg.div.offset().top + fg.div.height() - fg.size()) {
+				
+				if (demo.done) {
+					demo.load(1 + Math.floor(($(window).height() + $(window).scrollTop() - (fg.div.offset().top + fg.div.height())) / fg.size()));
+				}
+			}
 		});
 	});
 </script>
