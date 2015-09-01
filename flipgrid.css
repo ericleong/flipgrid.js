@@ -21,7 +21,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 	padding: 0px;
 	z-index: 1;
 	width: 20%;
-	opacity: 0;
 	
 	vertical-align: top;
 
@@ -29,6 +28,14 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 	perspective: 1000px;
 
 	transition: opacity .8s ease-in;
+}
+
+.tile-container.hidden {
+	opacity: 0;
+}
+
+.tile-container.visible {
+	opacity: 1;
 }
 
 .tile-container:hover{
