@@ -78,7 +78,7 @@ flipgrid.prototype = {
 		return Math.floor(this.div.width() / this.cols());
 	},
 
-	width: function() {
+	stride: function() {
 		return Math.floor(this.div.width() / this.size());
 	},
 
@@ -141,18 +141,18 @@ flipgrid.prototype = {
 					}
 
 					tile.toggleClass('flip');
-					var width = fg.width();
+					var stride = fg.stride();
 
 					setTimeout(function() {
-						if ((tile.index() + 1) % width != 0) {
+						if ((tile.index() + 1) % stride != 0) {
 							fg.flip(tile.next(), tile, offset);
 						}
-						if (tile.index() % width != 0) {
+						if (tile.index() % stride != 0) {
 							fg.flip(tile.prev(), tile, offset);
 						}
 
-						fg.flip(tile.siblings().eq(tile.index() - width), tile, offset);
-						fg.flip(tile.siblings().eq(tile.index() + width - 1), tile, offset);
+						fg.flip(tile.siblings().eq(tile.index() - stride), tile, offset);
+						fg.flip(tile.siblings().eq(tile.index() + stride - 1), tile, offset);
 					}, 100);
 				}
 			});
@@ -176,7 +176,6 @@ flipgrid.prototype = {
 
 		$('.back', tile).css({
 			'background-image': offset.url,
-			'background-size': '200% 200%',
 			'background-position': xpos + 'px ' + ypos + 'px',
 		});
 	},
@@ -199,20 +198,20 @@ flipgrid.prototype = {
 			if (!tile.hasClass('flip') || offset == undefined) // prevent turning if we're trying to set a partial pic
 				tile.toggleClass('flip');
 
-			var width = this.width();
+			var stride = this.stride();
 			var fg = this;
 
 			setTimeout(function() {
 
-				if ((tile.index() + 1) % width != 0) {
+				if ((tile.index() + 1) % stride != 0) {
 					fg.flip(tile.next(), tile, offset);
 				}
-				if (tile.index() % width != 0) {
+				if (tile.index() % stride != 0) {
 					fg.flip(tile.prev(), tile, offset);
 				}
 
-				fg.flip(tile.siblings().eq(tile.index() - width), tile, offset);
-				fg.flip(tile.siblings().eq(tile.index() + width - 1), tile, offset);
+				fg.flip(tile.siblings().eq(tile.index() - stride), tile, offset);
+				fg.flip(tile.siblings().eq(tile.index() + stride - 1), tile, offset);
 			}, 100);
 		}
 	},
