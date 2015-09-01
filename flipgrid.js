@@ -118,24 +118,55 @@ flipgrid.prototype = {
 				}
 
 				function firstflip() {
-
-					var offset = null;
-
-					if (this.src != undefined) {
-
-						offset = {
-							'url': 'url(' + this.src + ')',
-							'x': (fg.div.width() - this.width) / 2,
-							'y': ($(window).height() - this.height) / 2 + $(window).scrollTop() - fg.div.offset().top,
-							'width': this.width,
-							'height': this.height,
-						};
-
-						if (offset.y > fg.div.height() - this.height) {
-							offset.y = fg.div.height() - this.height;
-						} else if (offset.y < 0) {
-							offset.y = 0;
+					
+					if (this.src) {
+						// parent dimensions
+						var parentStyle = window.getComputedStyle(fg.div.get(0));
+				
+						var parentWidth = parseInt(parentStyle.width, 10);
+						var parentHeight = parseInt(parentStyle.height, 10);
+						
+						var parentTop = fg.div.get(0).getBoundingClientRect().top;
+						
+						// determine maximum height
+						var targetHeight = window.innerHeight;
+				
+						if (parentHeight < window.innerHeight) {
+							targetHeight = parentHeight;
+						} else if (parentTop > 0) {
+							targetHeight -= parentTop;
 						}
+						
+						// calculate width + height
+						var targetWidth;
+						var offsetY;
+						var ratio = this.naturalWidth / this.naturalHeight;
+						
+						if (ratio * targetHeight > parentWidth) { // wide
+							targetWidth = parentWidth;
+							targetHeight = targetWidth / ratio;
+							if (parentTop < 0) {
+								offsetY = fg.div.get(0).offsetTop - parentTop + window.innerHeight / 2 - targetHeight / 2;
+							} else {
+								offsetY = (window.innerHeight) / 2 - targetHeight / 2;
+							}
+						} else { // tall
+							targetWidth = ratio * targetHeight;
+							
+							if (parentTop < 0) {
+								offsetY = fg.div.get(0).offsetTop - parentTop;
+							} else {
+								offsetY = parentTop;
+							}
+						}
+						
+						var offset = {
+							'url': 'url(' + this.src + ')',
+							'x': (parentWidth - targetWidth) / 2,
+							'y': offsetY,
+							'width': targetWidth,
+							'height': targetHeight,
+						};
 
 						fg.createTileBack(tile, offset);
 					}
@@ -176,6 +207,7 @@ flipgrid.prototype = {
 
 		$('.back', tile).css({
 			'background-image': offset.url,
+			'background-size': offset.width + 'px ' + offset.height + 'px',
 			'background-position': xpos + 'px ' + ypos + 'px',
 		});
 	},
@@ -183,7 +215,8 @@ flipgrid.prototype = {
 	flip: function(tile, prev, offset) {
 		// flip
 		// or change picture if new picture is moving in
-		if (prev.hasClass('flip') != tile.hasClass('flip') || (offset != undefined && prev.hasClass('flip') && $('.back', tile).css('background-image') != offset.url && $('.back', prev).css('background-image') == offset.url)) {
+		if (prev.hasClass('flip') != tile.hasClass('flip')
+			|| (offset != undefined && prev.hasClass('flip') && $('.back', tile).css('background-image') != offset.url && $('.back', prev).css('background-image') == offset.url)) {
 
 			if (offset != undefined) {
 				// if outside user's view, don't turn
