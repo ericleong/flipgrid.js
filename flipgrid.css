@@ -26,16 +26,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 	-webkit-perspective: 1000px;
 	perspective: 1000px;
-
-	transition: opacity .8s ease-in;
-}
-
-.tile-container.hidden {
-	opacity: 0;
-}
-
-.tile-container.visible {
-	opacity: 1;
 }
 
 .tile-container:hover{
