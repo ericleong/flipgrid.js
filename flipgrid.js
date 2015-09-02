@@ -174,11 +174,11 @@ Flipgrid.prototype = {
 	createTileBack: function(tile, offset) {
 		var xpos = tile.position() ? -tile.position().left + offset.x : offset.x;
 		var ypos = tile.position() ? -tile.position().top + offset.y : offset.y;
-
+		
 		$('.back', tile).css({
 			'background-image': offset.url,
-			'background-size': offset.width + 'px ' + offset.height + 'px',
-			'background-position': xpos + 'px ' + ypos + 'px',
+			'background-size': (offset.width / tile.width() * 100) + '% ' + (offset.height / tile.height() * 100) + '%',
+			'background-position': (-xpos / (offset.width - tile.width()) * 100) + '% ' + (-ypos / (offset.height - tile.height()) * 100) + '%',
 		});
 	},
 
