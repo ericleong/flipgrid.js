@@ -36,7 +36,7 @@ var Flipgrid = function(div, numCols, tileWidth) {
 	);
 
 	// Tile container.
-	this.tileContainer = $('<div>').addClass('tile-container').addClass('hidden').append(this.card);
+	this.tileContainer = $('<div>').addClass('tile-container').append(this.card);
 
 	this.bind();
 };
@@ -234,9 +234,5 @@ Flipgrid.prototype = {
 		});
 
 		this.div.append(tile);
-	},
-
-	showTiles: function() {
-		$('.tile-container', this.div).addClass('visible').removeClass('hidden');
 	}
 };
