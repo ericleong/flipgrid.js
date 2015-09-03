@@ -89,21 +89,9 @@ Flipgrid.flip = function(tile, prev, stride, offset, delay) {
 
 Flipgrid.prototype = {
 
-	size: function() {
-		var tile = $('.tile-container', this.div).get(0);
-
-		if (tile) {
-			return tile.getBoundingClientRect().width;
-		} else {
-			return -1;
-		}
-	},
-
-	stride: function() {
-		var size = this.size();
-
-		if (size > 0) {
-			return Math.floor(this.div.get(0).getBoundingClientRect().width / this.size());
+	stride: function(tileWidth) {
+		if (tileWidth > 0) {
+			return Math.floor(this.div.get(0).getBoundingClientRect().width / tileWidth);
 		} else {
 			return 5;
 		}
@@ -163,7 +151,7 @@ Flipgrid.prototype = {
 		}
 
 		tile.toggleClass('flip');
-		var stride = this.stride();
+		var stride = this.stride(tile.getBoundingClientRect().width);
 		var delay = this.delay;
 
 		setTimeout(function() {
