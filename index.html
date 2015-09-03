@@ -75,6 +75,52 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 	#tiles {
 		clear: both;
 	}
+	
+	.tile-container {
+		width: calc(100% / 3);
+	}
+	
+	@media (min-width: 600px) {
+		.tile-container {
+			width: calc(100% / 4);
+		}
+	}
+	
+	@media (min-width: 800px) {
+		.tile-container {
+			width: calc(100% / 5);
+		}
+	}
+	
+	@media (min-width: 1000px) {
+		.tile-container {
+			width: calc(100% / 6);
+		}
+	}
+	
+	@media (min-width: 1200px) {
+		.tile-container {
+			width: calc(100% / 7);
+		}
+	}
+	
+	@media (min-width: 1400px) {
+		.tile-container {
+			width: calc(100% / 8);
+		}
+	}
+	
+	@media (min-width: 1600px) {
+		.tile-container {
+			width: calc(100% / 9);
+		}
+	}
+	
+	@media (min-width: 1800px) {
+		.tile-container {
+			width: calc(100% / 10);
+		}
+	}
 </style>
 
 <script type="text/javascript"
@@ -83,16 +129,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 <script type="text/javascript" src="flipgrid.js"></script>
 <script type="text/javascript">
 	$(function() {
-		var calcCols = function(width) {
-			// minimize column width, but at least 3 columns
-			
-			if (width / 200 < 3) {
-				return 3;
-			} else {
-				return Math.floor(width / 200);
-			}
-		};
-
 		var pickSource = function(text) {
 			if (text == "tumblr") {
 				return Demo.prototype.loadTumblr;
@@ -115,8 +151,34 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 			}
 		}
 
-		var fg = new Flipgrid("#tiles", calcCols($(document).width()));
-		var demo = new Demo(fg, initial);
+		var fg = new Flipgrid("#tiles");
+		var demo = new Demo(fg, initial, function() {
+			var cols = 3;
+			
+			if (window.matchMedia("(min-width: 600px)").matches) {
+				cols = 4;
+			}
+			if (window.matchMedia("(min-width: 800px)").matches) {
+				cols = 5;
+			}
+			if (window.matchMedia("(min-width: 1000px)").matches) {
+				cols = 6;
+			}
+			if (window.matchMedia("(min-width: 1200px)").matches) {
+				cols = 7;
+			}
+			if (window.matchMedia("(min-width: 1400px)").matches) {
+				cols = 8;
+			}
+			if (window.matchMedia("(min-width: 1600px)").matches) {
+				cols = 9;
+			}
+			if (window.matchMedia("(min-width: 1800px)").matches) {
+				cols = 10;
+			}
+			
+			return cols;
+		});
 		demo.load();
 
 		$("#sources").on("click", "a", {demo: demo}, function(e) {
@@ -132,11 +194,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 			}
 		});
 
-		$(window).resize(function() {
-			fg.numCols = calcCols($("#tiles").width());
-			fg.resize();
-		});
-		
 		$(window).scroll(function(e) {
 			// Check if we reached bottom of the document
 			if ($(window).height() + $(window).scrollTop() >= fg.div.offset().top + fg.div.height() - fg.size()) {
