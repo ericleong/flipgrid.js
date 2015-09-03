@@ -151,7 +151,7 @@ Flipgrid.prototype = {
 		}
 
 		tile.toggleClass('flip');
-		var stride = this.stride(tile.getBoundingClientRect().width);
+		var stride = this.stride(tile.get(0).getBoundingClientRect().width);
 		var delay = this.delay;
 
 		setTimeout(function() {
