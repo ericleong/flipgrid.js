@@ -150,9 +150,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 				initial = hash;
 			}
 		}
-
-		var fg = new Flipgrid("#tiles");
-		var demo = new Demo(fg, initial, function() {
+		
+		var calcCols = function() {
 			var cols = 3;
 			
 			if (window.matchMedia("(min-width: 600px)").matches) {
@@ -178,7 +177,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 			}
 			
 			return cols;
-		});
+		};
+
+		var fg = new Flipgrid("#tiles");
+		var demo = new Demo(fg, initial, calcCols);
 		demo.load();
 
 		$("#sources").on("click", "a", {demo: demo}, function(e) {
@@ -193,13 +195,17 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 				e.preventDefault();
 			}
 		});
+		
+		var calcTileWidth = function() {
+			return fg.div.width() / calcCols();
+		}
 
 		$(window).scroll(function(e) {
 			// Check if we reached bottom of the document
-			if ($(window).height() + $(window).scrollTop() >= fg.div.offset().top + fg.div.height() - fg.size()) {
+			if ($(window).height() + $(window).scrollTop() >= fg.div.offset().top + fg.div.height() - calcTileWidth()) {
 				
 				if (demo.done) {
-					demo.load(1 + Math.floor(($(window).height() + $(window).scrollTop() - (fg.div.offset().top + fg.div.height())) / fg.size()));
+					demo.load(1 + Math.floor(($(window).height() + $(window).scrollTop() - (fg.div.offset().top + fg.div.height())) / calcTileWidth()));
 				}
 			}
 		});
