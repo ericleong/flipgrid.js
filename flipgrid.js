@@ -24,19 +24,19 @@ var Flipgrid = function(div, delay) {
 		$('<div>').addClass('tile-card').append(
 			$('<div>').addClass('front tile'),
 			$('<div>').addClass('back tile')));
-			
+
 	this.delay = delay || 100;
 };
 
 Flipgrid.createTileBack = function(tile, offset) {
 	var xpos = tile.position() ? -tile.position().left + offset.x : offset.x;
 	var ypos = tile.position() ? -tile.position().top + offset.y : offset.y;
-	
+
 	var elem = tile.get(0);
-	
+
 	if (elem) {
 		var rect = elem.getBoundingClientRect();
-	
+
 		$('.back', tile).css({
 			'background-image': offset.url,
 			'background-size': (offset.width / rect.width * 100) + '% ' + (offset.height / rect.height * 100) + '%',
@@ -77,7 +77,7 @@ Flipgrid.flip = function(tile, prev, stride, offset, delay) {
 		}
 
 		// prevent turning if we're trying to set a partial pic
-		if (!tile.hasClass('flip') || offset == undefined) { 
+		if (!tile.hasClass('flip') || offset == undefined) {
 			tile.toggleClass('flip');
 		}
 
@@ -91,7 +91,7 @@ Flipgrid.prototype = {
 
 	size: function() {
 		var tile = $('.tile-container', this.div).get(0);
-		
+
 		if (tile) {
 			return tile.getBoundingClientRect().width;
 		} else {
@@ -103,12 +103,12 @@ Flipgrid.prototype = {
 		var size = this.size();
 
 		if (size > 0) {
-			return Math.floor(this.div.get(0).getBoundingClientRect().width / this.size()); 
+			return Math.floor(this.div.get(0).getBoundingClientRect().width / this.size());
 		} else {
 			return 5;
 		}
 	},
-	
+
 	startFlip: function(tile, src, naturalWidth, naturalHeight) {
 		if (src && naturalWidth > 0 && naturalHeight > 0) {
 			// parent dimensions
@@ -165,7 +165,7 @@ Flipgrid.prototype = {
 		tile.toggleClass('flip');
 		var stride = this.stride();
 		var delay = this.delay;
-		
+
 		setTimeout(function() {
 			Flipgrid.flipper(tile, stride, offset, delay);
 		}, delay);
@@ -179,9 +179,9 @@ Flipgrid.prototype = {
 		$('.front', tile).css({
 			'background-image': 'url(' + smallURL + ')'
 		});
-		
+
 		var fg = this;
-		
+
 		tile.on('click', function() {
 			var tile = $(this);
 
