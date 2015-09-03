@@ -86,7 +86,6 @@ Demo.prototype = {
 					demo.flipgrid.addPhoto($(this).filterNode('media:thumbnail').attr('url'), $(this).filterNode('media:content').attr('url'));
 				});
 
-				demo.flipgrid.showTiles();
 				demo.done = true;
 			});
 	},
@@ -145,7 +144,6 @@ Demo.prototype = {
 				}
 
 				if (numpages <= 1 || curpage >= demo.flickr_pages) {
-					demo.flipgrid.showTiles();
 					demo.done = true;
 				}
 
@@ -229,7 +227,6 @@ Demo.prototype = {
 					}
 				}
 
-				demo.flipgrid.showTiles();
 				demo.done = true;
 			}
 		);
@@ -303,7 +300,6 @@ Demo.prototype = {
 
 					if (demo.instagram_max_id == -1 || max_id < demo.instagram_max_id) {
 						demo.instagram_max_id = max_id;
-						demo.flipgrid.showTiles();
 						demo.done = true;
 					} else {
 						demo.instagram_max_id = -2;
