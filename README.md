@@ -4,11 +4,6 @@ flipgrid.js is a simple, content-focused photo gallery inspired by Microsoft's M
 
 Visit [ericleong.github.io/flipgrid.js](http://ericleong.github.io/flipgrid.js) for a demo.
 
-dependencies
-------------
-
-* [jQuery](http://jquery.com/)
-
 usage
 -----
 
@@ -19,6 +14,6 @@ First, add a reference to `flipgrid.js` and `flipgrid.css` in your HTML file, li
 ```
 
 ```Javascript
-var flipgrid = new Flipgrid(<selector>, <number of columns>, <tile width>);
+var flipgrid = new Flipgrid(<selector>, <delay>);
 flipgrid.addPhoto(<small url>, <large url>);
 ```
