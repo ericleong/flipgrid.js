@@ -14,11 +14,14 @@ $ bower install flipgrid.js
 
 ## usage
 
-First, add a reference to `flipgrid.js` and `flipgrid.css` in your HTML file, like this:
+First, add a reference to `flipgrid.js` and `flipgrid.css` in your `<head>`:
+
 ```HTML
 <link rel="stylesheet" type="text/css" href="flipgrid.css" />
 <script type="text/javascript" src="flipgrid.js"></script>
 ```
+
+Then use it like this:
 
 ```Javascript
 var flipgrid = new Flipgrid(<selector>, <delay>);
