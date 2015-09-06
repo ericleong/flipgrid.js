@@ -135,8 +135,6 @@ Flipgrid.startFlip = function(div, tile, delay, src, naturalWidth, naturalHeight
 			}
 		}
 
-		console.log(offsetY);
-
 		var offset = {
 			'url': 'url(' + src + ')',
 			'x': (parentWidth - targetWidth) / 2,
