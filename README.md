@@ -24,6 +24,6 @@ First, add a reference to `flipgrid.js` and `flipgrid.css` in your `<head>`:
 Then use it like this:
 
 ```Javascript
-var flipgrid = new Flipgrid(<selector>, <delay>);
+var flipgrid = new Flipgrid(<element>, <delay>);
 flipgrid.addPhoto(<small url>, <large url>);
 ```
