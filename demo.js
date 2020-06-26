@@ -7,13 +7,7 @@ $.fn.filterNode = function(name) {
 
 var Demo = function(flipgrid, load, cols) {
 	// Important variables!
-	this.PICASA_USER_ID = '';
-	this.FLICKR_USER_ID = '';
-	this.FLICKR_API_KEY = '';
-	this.FLICKR_METHOD = 'flickr.people.getPublicPhotos';
 	this.TUMBLR_BLOG_NAME = 'dreamynomad';
-	this.INSTAGRAM_USER_ID = '';
-	this.INSTAGRAM_CLIENT_ID = '';
 	
 	this.flipgrid = flipgrid;
 	this.load =  load;
@@ -56,7 +50,7 @@ Demo.prototype = {
 
 		var demo = this;
 
-		$.getJSON('http://' + this.TUMBLR_BLOG_NAME + '.tumblr.com/api/read/json?type=photo&num=' + numposts + '&start=' + this.tumblr_index + '&callback=?',
+		$.getJSON('https://' + this.TUMBLR_BLOG_NAME + '.tumblr.com/api/read/json?type=photo&num=' + numposts + '&start=' + this.tumblr_index + '&callback=?',
 			function(data) {
 
 				demo.tumblr_index += data.posts.length;
